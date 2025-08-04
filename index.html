@@ -19,25 +19,67 @@
             color: #666;
         }
         .map-container {
+            border: 3px solid red;
             width: 100%;
             height: 600px;
-            background-color: #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results-container {
+            margin-top: 20px;
+            padding: 10px;
+            /* border: 1px solid #ccc; */
+            background-color: #f9f9f9;
+            
         }
     </style>
 </head>
 <body>
-    <h1>Draw a map</h1>
+    <h2>Can you draw a district in Texas?</h2>
+    <!-- <p>There are currently 36 congressional districts in Texas, after four more districts were added in the 2020 Census.</p>  -->
+    <p>Click anywhere on the map to begin drawing, and connect back to the starting point to complete the shape.</p>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
-    <div id="osm-map"></div>
-    <button id="drawMap">Draw district</button>
-    <button id="clearMap">Clear Map</button>
-    <button id="addLayer">Show districts</button>
-    <button id="checkAnswer">Check My Drawing</button>
 
-<script src="drawMap.js"></script>
+    <div class="map-container">
+        <div id="osm-map"></div>
+    </div>
+
+    <div class="footnote">
+        <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
+    </div>
+    <div class="button-container">
+        <button id="checkAnswer">Check My Drawing</button>
+        <button id="clearMap">Try again</button>
+    </div>
+
+    <div class="results-container">
+        <h3>Results</h3>
+        <p id="results"></p>
+    </div>
+
+    
+
+    <script src="drawMap.js"></script>
 
 </body>
 </html>
