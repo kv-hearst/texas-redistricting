@@ -33,7 +33,7 @@ fetch('gis-data/cities/austin/district-37.geojson')
                 color: '#50607A',
                 weight: 2,
                 opacity: 0.8,
-                fillOpacity: 0.1
+                fillOpacity: 0.3
             },
             onEachFeature: function (feature, layer) {
                 // Add popup text
@@ -45,7 +45,7 @@ fetch('gis-data/cities/austin/district-37.geojson')
                 L.marker(center, {
                     icon: L.divIcon({
                         className: 'district-label',
-                        html: '<div style="background: transparent; padding: 2px 5px; border-radius: 3px; font-size: 12px; font-weight: bold;">District 37</div>',
+                        html: '<div style="background: transparent; padding: 2px 5px; border-radius: 3px; font-size: 14px; font-weight: bold; color: #2A2F3E";>Current district</div>',
                         iconSize: [60, 20],
                         iconAnchor: [0, 60]
                     })
@@ -63,10 +63,11 @@ map.on('click', function () {
     if (!polygonDrawer) {
         polygonDrawer = new L.Draw.Polygon(map, {
             shapeOptions: {
-                color: '#97009c',
+                color: '#FFE657',
                 weight: 2,
                 opacity: 0.8,
-                fillOpacity: 0.3
+                fillOpacity: 0.3,
+                
             },
             allowIntersection: false,
             drawError: {
@@ -197,7 +198,7 @@ function showDistrictsAndCheck() {
                 return {
                     color: '#E1372D',
                     weight: 2,
-                    opacity: 0.8,
+                    opacity: 0.5,
                     fillOpacity: 0
                 };
             },
@@ -215,14 +216,31 @@ function showDistrictsAndCheck() {
                     style: {
                         color: '#E1372D',
                         weight: 2,
-                        opacity: 0.8,
-                        fillOpacity: 0.8
-                    }
+                        opacity: 0.3,
+                        fillOpacity: 0.3
+                    },
+            onEachFeature: function (feature, layer) {
+                // Add popup text
+                layer.bindPopup('Proposed');
+                
+                // Or add a permanent label
+                const bounds = layer.getBounds();
+                const center = bounds.getCenter();
+                L.marker(center, {
+                    icon: L.divIcon({
+                        className: 'district-label',
+                        html:
+                        '<div style="background: transparent; padding: 2px 5px; border-radius: 3px; font-size: 14px; color: #E1372D; font-weight: bold;">Proposed District</div>',
+                        iconSize: [60, 20],
+                        iconAnchor: [-10, 60]
+                    })
                 }).addTo(map);
-            })
+            }
+        }).addTo(map);
+    })
             .catch(error => console.error('Error loading proposed Austin district:', error));
         
-        districtsVisible = true; // Add this line
+        districtsVisible = true; 
     }
     
     document.getElementById('results').textContent = `The map's newly proposed GOP seat in Central Texas also triggers the prospect of Austin Democratic Reps. Casar and Lloyd Doggett facing each other in a primary for the area's lone remaining blue district.`;

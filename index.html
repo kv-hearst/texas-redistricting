@@ -126,7 +126,7 @@
             margin-bottom: 10px;
         }
         .map-container {
-            border: 3px solid red;
+            /* border: 3px solid red; */
             width: 100%;
             height: 600px;
             margin-bottom: 20px;
@@ -140,56 +140,153 @@
         button {
             padding: 10px 20px;
             font-size: 16px;
-            color: white;
-            background-color: #007bff;
+            color: #333;
+            background-color: #e0e0e0;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #e0e0e0;
         }
         .results-container {
             margin-top: 20px;
             padding: 10px;
             /* border: 1px solid #ccc; */
-            background-color: #f9f9f9;
+            /* background-color: #ffe6577c; */
+            display: none;
             
+        }
+        #clearMap {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <p>Currently there are 38 congressional districts in Texas which Republicans hold 25 seats. Texas GOP lawmakers released their first draft of the newly drawn redistricting map on July 30, targeting Democratic representatives in Austin, Dallas and Houston metro areas and in South Texas.</p>
+    <p>Currently there are 38 congressional districts in Texas, which Republicans hold 25 seats. Texas GOP lawmakers released their first draft of the newly drawn redistricting map on July 30, targeting Democratic representatives in Austin, Dallas and Houston metro areas and in South Texas.</p>
     
-    <p>Guess how specific districts were redrawn in the new proposal by trying it out yourself. Click anywhere on the map to begin drawing, and connect back to the starting point to complete the shape.</p>
+    <p>Guess how specific districts were redrawn in the new proposal. Click anywhere on the map to begin drawing, and connect back to the starting point to complete the shape.</p>
 
-    <h2>Can you draw the new district 37 in Austin?</h2>
+ <!-- Austin Section -->
+ <div class="city-section">
+    <h2 class="city-title">Can you draw the new District 37 in Austin?</h2>
+    <!-- <p><strong>Can you draw the new District 37 in Austin?</strong></p> -->
+    
     <div class="map-container">
-        <div id="osm-map"></div>
+        <div id="austin-map"></div>
     </div>
-
-
-
-    <!-- <div class="map-container">
-        <div id="osm-map"></div>
-    </div> -->
-
+    
     <div class="footnote">
         <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
     </div>
+    
     <div class="button-container">
-        <button id="checkAnswer">Check My Drawing</button>
-        <button id="clearMap">Try again</button>
+        <button id="checkAnswer_austin">Check Results</button>
+        <button id="clearMap_austin">Try Again</button>
     </div>
 
     <div class="results-container">
-        <h3>Results</h3>
-        <p id="results"></p>
+        <h3>Analysis:</h3>
+        <p id="results_austin"></p>
+    </div>
+</div>
+
+<p>TKTK
+</p>
+   
+<!-- Dallas -->
+
+<h2>Can you draw the new District 32 in Dallas?</h2>
+<div class="map-container">
+    <div id="dallas-map"></div>
+</div>
+
+<div class="footnote">
+    <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
+</div>
+<div class="button-container">
+    <button id="checkAnswer_dallas">Check Results</button>
+    <button id="clearMap_dallas">Try again</button>
+</div>
+
+<div class="results-container">
+    <h3>Proposal:</h3>
+    <p id="results_dallas"></p>
+</div>    
+
+
+<!-- Houston Section -->
+<div class="city-section">
+    <h2 class="city-title">Can you draw the new District 9 in Houston?</h2>
+    <!-- <p><strong>Can you draw the new District 9 in Houston?</strong></p> -->
+    
+    <div class="map-container">
+        <div id="houston-map"></div>
+    </div>
+    
+    <div class="footnote">
+        <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
+    </div>
+    
+    <div class="button-container">
+        <button id="checkAnswer_houston">Check Results</button>
+        <button id="clearMap_houston">Try Again</button>
     </div>
 
+    <div class="results-container">
+        <h3>Analysis:</h3>
+        <p id="results_houston"></p>
+    </div>
+</div>
+
+<!-- San Antonio Section -->
+<div class="city-section">
+    <h2 class="city-title">Can you draw the new District 35 in San Antonio?</h2>
+    <!-- <p><strong>Can you draw the new District 35 in San Antonio?</strong></p> -->
     
-    <script src="drawAustin.js"></script>
-    <!-- <script src="drawMap.js"></script> -->
+    <div class="map-container">
+        <div id="sanantonio-map"></div>
+    </div>
+    
+    <div class="footnote">
+        <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
+    </div>
+    
+    <div class="button-container">
+        <button id="checkAnswer_sanantonio">Check Results</button>
+        <button id="clearMap_sanantonio">Try Again</button>
+    </div>
+
+    <div class="results-container">
+        <h3>Analysis:</h3>
+        <p id="results_sanantonio"></p>
+    </div>
+</div>
+
+<!-- South Texas -->
+<div class="city-section">
+    <h2 class="city-title">Can you draw the new District 28 in South Texas?</h2>
+    <!-- <p><strong>Can you draw the new District 28 in South Texas?</strong></p> -->
+    
+    <div class="map-container">
+        <div id="southtexas-map"></div>
+    </div>
+    
+    <div class="footnote">
+        <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
+    </div>
+    
+    <div class="button-container">
+        <button id="checkAnswer_southtexas">Check Results</button>
+        <button id="clearMap_southtexas">Try Again</button>
+    </div>
+
+    <div class="results-container">
+        <h3>Analysis:</h3>
+        <p id="results_southtexas"></p>
+    </div>
+</div>
+<script src="cityMaps.js"></script>
 
 </body>
 </html>
