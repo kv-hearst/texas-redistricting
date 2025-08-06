@@ -5,23 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Texas District Redistricting Interactive</title>
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
     
     <style>
+		@font-face {
+		font-family:"effra";
+		src:url("https://use.typekit.net/af/bc093c/00000000000000007735fd41/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff2"),url("https://use.typekit.net/af/bc093c/00000000000000007735fd41/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff"),url("https://use.typekit.net/af/bc093c/00000000000000007735fd41/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("opentype");
+		font-display:auto;font-style:normal;font-weight:400;font-stretch:normal;
+		}
+
+		@font-face {
+		font-family:"effra";
+		src:url("https://use.typekit.net/af/c0864f/00000000000000007735fd3d/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff2"),url("https://use.typekit.net/af/c0864f/00000000000000007735fd3d/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff"),url("https://use.typekit.net/af/c0864f/00000000000000007735fd3d/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("opentype");
+		font-display:auto;font-style:normal;font-weight:700;font-stretch:normal;
+		}
+
+		@font-face {
+		font-family: "effra";
+		src: url("https://use.typekit.net/af/[font-id]/00000000000000007735fd[xx]/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("woff2"),
+			url("https://use.typekit.net/af/[font-id]/00000000000000007735fd[xx]/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("woff"),
+			url("https://use.typekit.net/af/[font-id]/00000000000000007735fd[xx]/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("opentype");
+		font-display: auto;
+		font-style: italic;
+		font-weight: 400;
+		font-stretch: normal;
+		}
+
+		@font-face {
+		font-family: 'Effra-Regular';
+		src: local('effra');
+		font-weight: 400;
+		font-style: normal;
+		}
+    
+		@font-face {
+		font-family: 'Effra-Bold';
+		src: local('effra');
+		font-weight: 700;
+		font-style: normal;
+		}
+
+        @font-face {
+		font-family: 'Effra';
+		src: local('effra');
+		font-weight: 400;
+		font-style: italic;
+		}
+
+		@font-face {
+		font-family: 'Effra-Italic';
+		src: local('effra');
+		font-weight: 400;
+		font-style: italic;
+	}
+
+	</style>
+
+    <style>
+    .source-sans-3-light {
+        font-family: "Source Sans 3", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    .source-sans-3-regular {
+        font-family: "Source Sans 3", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .source-sans-3-bold {
+        font-family: "Source Sans 3", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 700;
+        font-style: normal;
+    }
+    </style>
+
+    <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Effra', sans-serif;
             margin: 0;
             padding: 20px;
-            background: #f8f9fa;
+            /* background: #f8f9fa; */
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            /* background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
             overflow: hidden;
         }
         
@@ -46,7 +127,7 @@
         
         .city-section {
             padding: 2rem;
-            border-bottom: 1px solid #e9ecef;
+            /* border-bottom: 1px solid #e9ecef; */
         }
         
         .city-section:last-child {
@@ -121,7 +202,7 @@
             object-fit: contain;
             cursor: grab;
             transition: transform 0.3s ease;
-            background: white;
+            /* background: white; */
             border-radius: 4px;
             padding: 10px;
         }
@@ -185,7 +266,7 @@
             background: #f8f9fa;
             padding: 1.5rem;
             border-radius: 8px;
-            border-left: 4px solid #007bff;
+            /* border-left: 4px solid #007bff; */
             color: #495057;
             font-weight: 500;
             line-height: 1.6;
@@ -246,18 +327,11 @@
 </head>
 <body>
     <div class="container">
-        <!-- <div class="header">
-            <h1>Texas Redistricting Interactive</h1>
-            <p class="subtitle">Drag district shapes to see how GOP redistricting plans affect major Texas cities</p>
-        </div> -->
-
         <!-- Austin Section -->
         <div class="city-section">
             <div class="city-header">
                 <h2 class="city-title">Austin</h2>
-                <div class="district-badge">District 37</div>
             </div>
-            
             <div class="map-container">
                 <div id="austin-map" class="map"></div>
                 <div class="sidebar">
@@ -273,7 +347,7 @@
             </div>
             
             <div id="results_austin" class="results">
-                Drag the district shape onto the map to get started!
+               
             </div>
         </div>
 
@@ -281,7 +355,6 @@
         <div class="city-section">
             <div class="city-header">
                 <h2 class="city-title">Houston</h2>
-                <div class="district-badge">District 9</div>
             </div>
             
             <div class="map-container">
@@ -299,7 +372,7 @@
             </div>
             
             <div id="results_houston" class="results">
-                Drag the district shape onto the map to get started!
+            
             </div>
         </div>
 
@@ -307,7 +380,6 @@
         <div class="city-section">
             <div class="city-header">
                 <h2 class="city-title">San Antonio</h2>
-                <div class="district-badge">District 35</div>
             </div>
             
             <div class="map-container">
@@ -325,10 +397,12 @@
             </div>
             
             <div id="results_sanantonio" class="results">
-                Drag the district shape onto the map to get started!
+             
             </div>
         </div>
     </div>
+    <div class="footnote" style="text-align:center; margin-top:20px; font-size:0.9rem; color:#414141;">
+        <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://data.capitol.texas.gov/dataset" target="_blank">Texas Legislative Council</a></p>
 
     <!-- Leaflet JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
