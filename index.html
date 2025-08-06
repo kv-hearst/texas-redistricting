@@ -354,7 +354,8 @@
             try {
                 console.log('Attempting to load district data...');
                 // Try to load from your actual file first
-                const response = await fetch('/gis-data/cities/austin/proposed-37.json');
+                // const response = await fetch('/gis-data/cities/austin/proposed-37.json');
+                const response = await fetch('./gis-data/cities/austin/proposed-37.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
