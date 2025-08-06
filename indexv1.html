@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw a Map</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    <!-- fonts -->
+    <style>
+		@font-face {
+		font-family:"effra";
+		src:url("https://use.typekit.net/af/bc093c/00000000000000007735fd41/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff2"),url("https://use.typekit.net/af/bc093c/00000000000000007735fd41/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff"),url("https://use.typekit.net/af/bc093c/00000000000000007735fd41/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("opentype");
+		font-display:auto;font-style:normal;font-weight:400;font-stretch:normal;
+		}
+
+		@font-face {
+		font-family:"effra";
+		src:url("https://use.typekit.net/af/c0864f/00000000000000007735fd3d/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff2"),url("https://use.typekit.net/af/c0864f/00000000000000007735fd3d/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff"),url("https://use.typekit.net/af/c0864f/00000000000000007735fd3d/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("opentype");
+		font-display:auto;font-style:normal;font-weight:700;font-stretch:normal;
+		}
+
+		@font-face {
+		font-family: "effra";
+		src: url("https://use.typekit.net/af/[font-id]/00000000000000007735fd[xx]/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("woff2"),
+			url("https://use.typekit.net/af/[font-id]/00000000000000007735fd[xx]/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("woff"),
+			url("https://use.typekit.net/af/[font-id]/00000000000000007735fd[xx]/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("opentype");
+		font-display: auto;
+		font-style: italic;
+		font-weight: 400;
+		font-stretch: normal;
+		}
+
+		@font-face {
+		font-family: 'Effra-Regular';
+		src: local('effra');
+		font-weight: 400;
+		font-style: normal;
+		}
+    
+		@font-face {
+		font-family: 'Effra-Bold';
+		src: local('effra');
+		font-weight: 700;
+		font-style: normal;
+		}
+
+        @font-face {
+		font-family: 'Effra';
+		src: local('effra');
+		font-weight: 400;
+		font-style: italic;
+		}
+
+		@font-face {
+		font-family: 'Effra-Italic';
+		src: local('effra');
+		font-weight: 400;
+		font-style: italic;
+	}
+
+	</style>
+
+    <style>
+    .source-sans-3-light {
+        font-family: "Source Sans 3", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    .source-sans-3-regular {
+        font-family: "Source Sans 3", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .source-sans-3-bold {
+        font-family: "Source Sans 3", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 700;
+        font-style: normal;
+    }
+    </style>
+    
+    
+    <style>
+        body {
+        font-family: 'Source Sans 3', Helvetica, Arial, sans-serif;
+        }
+        p {
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            color: #414141;
+            margin: 18px 0px 24px; 
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 300;
+        }
+        h2 {
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 700;
+            text-align: center;
+            /* margin-bottom: 20px; */
+            margin: 18px 0px 24px; 
+            font-size: 1.5em;
+            font-weight: bold;
+            line-height: 1.7;
+            color: #414141;
+            
+        }
+        h3 {
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 700;
+            font-size: 1.25em;
+            line-height: 1.5;
+            color: #414141;
+            margin-bottom: 10px;
+        }
+        .map-container {
+            /* border: 3px solid red; */
+            width: 100%;
+            height: 600px;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #333;
+            background-color: #e0e0e0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+        .results-container {
+            margin-top: 20px;
+            padding: 10px;
+            /* border: 1px solid #ccc; */
+            /* background-color: #ffe6577c; */
+            display: none;
+            
+        }
+        #clearMap {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <p>Currently there are 38 congressional districts in Texas, which Republicans hold 25 seats. Texas GOP lawmakers released their first draft of the newly drawn redistricting map on July 30, targeting Democratic representatives in Austin, Dallas and Houston metro areas and in South Texas.</p>
+    
+    <p>Guess how specific districts were redrawn in the new proposal. Click anywhere on the map to begin drawing, and connect back to the starting point to complete the shape.</p>
+
+ <!-- Austin Section -->
+ <div class="city-section">
+    <h2 class="city-title">Can you draw the new District 37 in Austin?</h2>
+    <!-- <p><strong>Can you draw the new District 37 in Austin?</strong></p> -->
+    
+    <div class="map-container">
+        <div id="austin-map"></div>
+    </div>
+    
+    <div class="footnote">
+        <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
+    </div>
+    
+    <div class="button-container">
+        <button id="checkAnswer_austin">Check Results</button>
+        <button id="clearMap_austin">Try Again</button>
+    </div>
+
+    <div class="results-container">
+        <h3>Analysis:</h3>
+        <p id="results_austin"></p>
+    </div>
+</div>
+
+<p>TKTK
+</p>
+   
+<!-- Dallas -->
+
+<h2>Can you draw the new District 32 in Dallas?</h2>
+<div class="map-container">
+    <div id="dallas-map"></div>
+</div>
+
+<div class="footnote">
+    <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
+</div>
+<div class="button-container">
+    <button id="checkAnswer_dallas">Check Results</button>
+    <button id="clearMap_dallas">Try again</button>
+</div>
+
+<div class="results-container">
+    <h3>Proposal:</h3>
+    <p id="results_dallas"></p>
+</div>    
+
+
+<!-- Houston Section -->
+<div class="city-section">
+    <h2 class="city-title">Can you draw the new District 9 in Houston?</h2>
+    <!-- <p><strong>Can you draw the new District 9 in Houston?</strong></p> -->
+    
+    <div class="map-container">
+        <div id="houston-map"></div>
+    </div>
+    
+    <div class="footnote">
+        <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
+    </div>
+    
+    <div class="button-container">
+        <button id="checkAnswer_houston">Check Results</button>
+        <button id="clearMap_houston">Try Again</button>
+    </div>
+
+    <div class="results-container">
+        <h3>Analysis:</h3>
+        <p id="results_houston"></p>
+    </div>
+</div>
+
+<!-- San Antonio Section -->
+<div class="city-section">
+    <h2 class="city-title">Can you draw the new District 35 in San Antonio?</h2>
+    <!-- <p><strong>Can you draw the new District 35 in San Antonio?</strong></p> -->
+    
+    <div class="map-container">
+        <div id="sanantonio-map"></div>
+    </div>
+    
+    <div class="footnote">
+        <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
+    </div>
+    
+    <div class="button-container">
+        <button id="checkAnswer_sanantonio">Check Results</button>
+        <button id="clearMap_sanantonio">Try Again</button>
+    </div>
+
+    <div class="results-container">
+        <h3>Analysis:</h3>
+        <p id="results_sanantonio"></p>
+    </div>
+</div>
+
+<!-- South Texas -->
+<div class="city-section">
+    <h2 class="city-title">Can you draw the new District 28 in South Texas?</h2>
+    <!-- <p><strong>Can you draw the new District 28 in South Texas?</strong></p> -->
+    
+    <div class="map-container">
+        <div id="southtexas-map"></div>
+    </div>
+    
+    <div class="footnote">
+        <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
+    </div>
+    
+    <div class="button-container">
+        <button id="checkAnswer_southtexas">Check Results</button>
+        <button id="clearMap_southtexas">Try Again</button>
+    </div>
+
+    <div class="results-container">
+        <h3>Analysis:</h3>
+        <p id="results_southtexas"></p>
+    </div>
+</div>
+<script src="cityMaps.js"></script>
+
+</body>
+</html>
