@@ -392,7 +392,7 @@
                 }).addTo(austinMap);
 
                 // Add a GeoJSON layer to the map
-                fetch('/gis-data/cities/austin/district-37.geojson')
+                fetch('./gis-data/cities/austin/district-37.geojson')
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
