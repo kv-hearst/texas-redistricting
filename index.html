@@ -3,216 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Austin District 37 Map Tool</title>
+    <title>Texas District Redistricting Interactive</title>
     
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
-          crossorigin="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            color: #333;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
         }
-
-        .city-section {
+        
+        .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        .city-title {
-            font-size: 28px;
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
-
-        .map-container {
-            position: relative;
-            margin-bottom: 20px;
-            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
-        #austin-map {
-            height: 500px;
-            width: 100%;
-            background: #e8f4f8;
-            transition: all 0.3s ease;
-        }
-
-        .footnote {
-            font-size: 12px;
-            color: #666;
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
             text-align: center;
-            margin: 15px 0;
         }
-
-        .footnote a {
-            color: #007bff;
-            text-decoration: none;
+        
+        h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+            font-weight: 700;
         }
-
-        .footnote a:hover {
-            text-decoration: underline;
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin: 0;
         }
-
-        .button-container {
+        
+        .city-section {
+            padding: 2rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .city-section:last-child {
+            border-bottom: none;
+        }
+        
+        .city-header {
             display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 20px 0;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
         }
-
-        button {
+        
+        .city-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #495057;
+            margin: 0;
+        }
+        
+        .district-badge {
             background: #007bff;
             color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        button:hover {
-            background: #0056b3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        #clearMap_austin {
-            background: #6c757d;
-        }
-
-        #clearMap_austin:hover {
-            background: #545b62;
-        }
-
-        .results-container {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 1px solid #dee2e6;
-            min-height: 60px;
-        }
-
-        .results-container h3 {
-            color: #495057;
-            margin-bottom: 10px;
-        }
-
-        #results_austin {
-            font-size: 16px;
-            line-height: 1.5;
-        }
-
-        .image-container {
-            position: relative;
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .image-container::before {
-            content: "📍 Drag this district shape onto the map above";
-            display: block;
-            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 18px;
         }
-
-        .image-container img {
-            max-width: 200px;
-            height: auto;
-            border-radius: 10px;
-            cursor: grab;
+        
+        .map-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .map {
+            height: 400px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            transition: border-color 0.3s ease;
+            position: relative;
+        }
+        
+        .map.drag-over {
+            border-color: #007bff !important;
+            background: rgba(0, 123, 255, 0.05);
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .image-container {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px dashed #dee2e6;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border: 3px solid rgba(255, 255, 255, 0.3);
         }
-
-        .image-container img:hover {
+        
+        .image-container:hover {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+        
+        .district-image {
+            max-width: 100%;
+            height: 150px;
+            object-fit: contain;
+            cursor: grab;
+            transition: transform 0.3s ease;
+            background: white;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        .district-image:hover {
             transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
-
-        .image-container img:active {
-            cursor: grabbing;
-        }
-
-        /* Drag and Drop Styles */
-        .drag-over {
-            border: 3px dashed #007bff !important;
-            background: rgba(0, 123, 255, 0.1) !important;
-        }
-
-        .dragging {
+        
+        .district-image.dragging {
             opacity: 0.6;
             transform: rotate(5deg) scale(1.05);
             cursor: grabbing !important;
             z-index: 1000;
         }
-
-        .district-layer {
-            cursor: grab;
+        
+        .drag-instruction {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-style: italic;
         }
-
-        .district-layer:hover {
-            filter: brightness(1.1);
+        
+        .controls {
+            display: flex;
+            gap: 0.5rem;
         }
-
-        /* Animations */
-        @keyframes slideIn {
-            from { 
-                transform: translateX(100%); 
-                opacity: 0;
-            }
-            to { 
-                transform: translateX(0); 
-                opacity: 1;
-            }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
         }
-
-        @keyframes slideOut {
-            from { 
-                transform: translateX(0); 
-                opacity: 1;
-            }
-            to { 
-                transform: translateX(100%); 
-                opacity: 0;
-            }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
         }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
         }
-
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+        }
+        
+        .results {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+            color: #495057;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+        
         .notification {
             position: fixed;
             top: 20px;
@@ -224,536 +202,137 @@
             z-index: 10000;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             font-weight: 500;
+            animation: slideIn 0.3s ease-out;
         }
-
-        .instructions {
-            background: #e3f2fd;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid #2196f3;
+        
+        @keyframes slideIn {
+            from { 
+                transform: translateX(100%); 
+                opacity: 0;
+            }
+            to { 
+                transform: translateX(0); 
+                opacity: 1;
+            }
         }
-
-        .instructions h4 {
-            color: #1976d2;
-            margin-bottom: 10px;
+        
+        @keyframes slideOut {
+            from { 
+                transform: translateX(0); 
+                opacity: 1;
+            }
+            to { 
+                transform: translateX(100%); 
+                opacity: 0;
+            }
         }
-
-        .instructions ul {
-            margin-left: 20px;
-        }
-
-        .instructions li {
-            margin: 5px 0;
-            color: #424242;
-        }
-
+        
         @media (max-width: 768px) {
-            .city-section {
-                margin: 10px;
-                padding: 15px;
+            .map-container {
+                grid-template-columns: 1fr;
             }
             
-            #austin-map {
-                height: 400px;
-            }
-            
-            .button-container {
+            .city-header {
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
+                gap: 1rem;
             }
             
-            button {
-                width: 200px;
-            }
-            
-            .image-container img {
-                max-width: 150px;
+            .controls {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <h1>How will Texas' cities look under the proposed redistricting?</h1>
-    <!-- Austin Section -->
-    <div class="city-section">
-        <h2 class="city-title">Austin</h2>
-        <p>Drag the district shape onto the map to get started!</p>
-        
-        <div class="map-container">
-            <div id="austin-map"></div>
-        </div>
-        
-        <div class="footnote">
-            <p>Interactive: Katrina Ventura/Hearst TV • Source: <a href="https://redistricting.capitol.texas.gov/history#maps-section" target="_blank">Texas Open Data</a></p>
-        </div>
-        
-        <div class="button-container">
-            <button id="checkAnswer_austin">Check Results</button>
-            <!-- <button id="clearMap_austin">Try Again</button> -->
-        </div>
-        
-        <div class="results-container">
-            <h3>Analysis:</h3>
-            <p id="results_austin">Drag the district shape onto the map to get started!</p>
-        </div>
-        
-        <div class="image-container">
-            <img src="images/proposed-37.png" 
-                 alt="Austin District 37 Shape" 
-                 id="district-shape">   
+    <div class="container">
+        <!-- <div class="header">
+            <h1>Texas Redistricting Interactive</h1>
+            <p class="subtitle">Drag district shapes to see how GOP redistricting plans affect major Texas cities</p>
+        </div> -->
 
+        <!-- Austin Section -->
+        <div class="city-section">
+            <div class="city-header">
+                <h2 class="city-title">Austin</h2>
+                <div class="district-badge">District 37</div>
+            </div>
+            
+            <div class="map-container">
+                <div id="austin-map" class="map"></div>
+                <div class="sidebar">
+                    <div class="image-container">
+                        <img src="assets/proposed-37.png" alt="District 37 Shape" class="district-image" draggable="true">
+                        <div class="drag-instruction">Drag this shape onto the map</div>
+                    </div>
+                    <div class="controls">
+                        <button id="checkAnswer_austin" class="btn btn-primary">Check Results</button>
+                        <button id="clearMap_austin" class="btn btn-secondary">Clear Map</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="results_austin" class="results">
+                Drag the district shape onto the map to get started!
+            </div>
+        </div>
+
+        <!-- Houston Section -->
+        <div class="city-section">
+            <div class="city-header">
+                <h2 class="city-title">Houston</h2>
+                <div class="district-badge">District 9</div>
+            </div>
+            
+            <div class="map-container">
+                <div id="houston-map" class="map"></div>
+                <div class="sidebar">
+                    <div class="image-container">
+                        <img src="assets/proposed-9.png" alt="District 9 Shape" class="district-image" draggable="true">
+                        <div class="drag-instruction">Drag this shape onto the map</div>
+                    </div>
+                    <div class="controls">
+                        <button id="checkAnswer_houston" class="btn btn-primary">Check Results</button>
+                        <button id="clearMap_houston" class="btn btn-secondary">Clear Map</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="results_houston" class="results">
+                Drag the district shape onto the map to get started!
+            </div>
+        </div>
+
+        <!-- San Antonio Section -->
+        <div class="city-section">
+            <div class="city-header">
+                <h2 class="city-title">San Antonio</h2>
+                <div class="district-badge">District 35</div>
+            </div>
+            
+            <div class="map-container">
+                <div id="sanantonio-map" class="map"></div>
+                <div class="sidebar">
+                    <div class="image-container">
+                        <img src="assets/proposed-35.png" alt="District 35 Shape" class="district-image" draggable="true">
+                        <div class="drag-instruction">Drag this shape onto the map</div>
+                    </div>
+                    <div class="controls">
+                        <button id="checkAnswer_sanantonio" class="btn btn-primary">Check Results</button>
+                        <button id="clearMap_sanantonio" class="btn btn-secondary">Clear Map</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="results_sanantonio" class="results">
+                Drag the district shape onto the map to get started!
+            </div>
         </div>
     </div>
 
     <!-- Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""></script>
-
-    <script>
-        // Austin District 37 Drag & Drop Map Implementation
-        let austinMap;
-        let droppedLayers = [];
-        let targetDistrict = null;
-        let district37GeoJSON = null;
-
-        // Sample District 37 GeoJSON data (replace with actual data)
-        // const sampleDistrictData = {
-        //     "type": "FeatureCollection",
-        //     "features": [
-        //         {
-        //             "type": "Feature",
-        //             "properties": {
-        //                 "name": "District 37",
-        //                 "id": "37",
-        //                 "description": "Proposed District 37 boundaries"
-        //             },
-        //             "geometry": {
-        //                 "type": "Polygon",
-        //                 "coordinates": [[
-        //                     [-97.7831, 30.3072],
-        //                     [-97.7531, 30.3072],
-        //                     [-97.7531, 30.2772],
-        //                     [-97.7331, 30.2772],
-        //                     [-97.7331, 30.2472],
-        //                     [-97.7631, 30.2472],
-        //                     [-97.7631, 30.2672],
-        //                     [-97.7831, 30.2672],
-        //                     [-97.7831, 30.3072]
-        //                 ]]
-        //             }
-        //         }
-        //     ]
-        // };
-
-
-
-        // Load district data (with fallback to sample data)
-        async function loadDistrictData() {
-            try {
-                console.log('Attempting to load district data...');
-                // Try to load from your actual file first
-                // const response = await fetch('/gis-data/cities/austin/proposed-37.json');
-                const response = await fetch('./gis-data/cities/austin/proposed-37.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                district37GeoJSON = await response.json();
-                console.log('District data loaded from file');
-            } catch (error) {
-                console.log('Using sample district data:', error.message);
-                district37GeoJSON = sampleDistrictData;
-            }
-            return district37GeoJSON;
-        }
-
-        // Initialize the map
-        async function initAustinMap() {
-            console.log('Initializing Austin map...');
-            
-            // Check if Leaflet is available
-            if (typeof L === 'undefined') {
-                console.error('Leaflet is not loaded!');
-                showError('Map library failed to load. Please refresh the page.');
-                return;
-            }
-
-            // Create the map
-            try {
-                austinMap = L.map('austin-map').setView([30.2672, -97.7431], 12);
-                console.log('Map created successfully');
-
-                // Add base tile layer
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: 'abcd',
-                maxZoom: 20
-                }).addTo(austinMap);
-
-                // Add a GeoJSON layer to the map
-                fetch('./gis-data/cities/austin/district-37.geojson')
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(geojsonData => {
-                        L.geoJSON(geojsonData, {
-                            style: {
-                                color: '#ff7800',
-                                weight: 2,
-                                opacity: 0.8,
-                                fillColor: '#ffcc00',
-                                fillOpacity: 0
-                            }
-                        }).addTo(austinMap);
-                        console.log('GeoJSON layer added successfully');
-                    })
-                    .catch(error => {
-                        console.error('Error loading GeoJSON layer:', error);
-                    });
-                // Load district data
-                await loadDistrictData();
-
-                // Create target district (hidden initially)
-                if (district37GeoJSON) {
-                    targetDistrict = L.geoJSON(district37GeoJSON, {
-                        style: {
-                            color: '#28a745',
-                            weight: 3,
-                            opacity: 0,
-                            fillOpacity: 0,
-                            fillColor: '#28a745'
-                        }
-                    }).addTo(austinMap);
-
-                    // Fit map to show the district area
-                    const bounds = targetDistrict.getBounds();
-                    if (bounds.isValid()) {
-                        austinMap.fitBounds(bounds, { padding: [50, 50] });
-                    }
-                }
-
-                // Set up drag and drop
-                setupDragAndDrop();
-                
-                // Set up button listeners
-                setupButtonListeners();
-                
-                console.log('Map initialization complete');
-
-            } catch (error) {
-                console.error('Error initializing map:', error);
-                showError('Failed to initialize the map. Please refresh the page.');
-            }
-        }
-
-        function setupDragAndDrop() {
-            const districtImage = document.getElementById('district-shape');
-            const mapContainer = document.getElementById('austin-map');
-
-            if (!districtImage) {
-                console.error('District image not found');
-                return;
-            }
-
-            // Make image draggable
-            districtImage.draggable = true;
-
-            // Drag event listeners for image
-            districtImage.addEventListener('dragstart', handleDragStart);
-            districtImage.addEventListener('dragend', handleDragEnd);
-
-            // Drop event listeners for map
-            mapContainer.addEventListener('dragover', handleDragOver);
-            mapContainer.addEventListener('dragenter', handleDragEnter);
-            mapContainer.addEventListener('dragleave', handleDragLeave);
-            mapContainer.addEventListener('drop', handleDrop);
-
-            console.log('Drag and drop setup complete');
-        }
-
-        function handleDragStart(e) {
-            console.log('Drag started');
-            e.target.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', 'district-shape');
-        }
-
-        function handleDragEnd(e) {
-            console.log('Drag ended');
-            e.target.classList.remove('dragging');
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-        }
-
-        function handleDragEnter(e) {
-            e.preventDefault();
-            e.currentTarget.classList.add('drag-over');
-        }
-
-        function handleDragLeave(e) {
-            if (e.target === e.currentTarget) {
-                e.currentTarget.classList.remove('drag-over');
-            }
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            e.currentTarget.classList.remove('drag-over');
-            console.log('Drop detected');
-
-            // Get drop coordinates
-            const mapContainer = document.getElementById('austin-map');
-            const rect = mapContainer.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            // Convert to map coordinates
-            const latLng = austinMap.containerPointToLatLng([x, y]);
-            console.log('Drop coordinates:', latLng);
-
-            // Add district to map
-            addDistrictToMap(latLng);
-            showNotification('✅ District shape placed! Double-click to remove.');
-        }
-
-        function addDistrictToMap(centerLatLng) {
-            if (!district37GeoJSON) {
-                console.error('No district data available');
-                return;
-            }
-
-            console.log('Adding district to map at:', centerLatLng);
-
-            // Create a copy of the district data
-            const districtCopy = JSON.parse(JSON.stringify(district37GeoJSON));
-
-            // Calculate offset to position at drop point
-            const tempLayer = L.geoJSON(districtCopy);
-            const bounds = tempLayer.getBounds();
-            const currentCenter = bounds.getCenter();
-            const offsetLat = centerLatLng.lat - currentCenter.lat;
-            const offsetLng = centerLatLng.lng - currentCenter.lng;
-
-            // Apply offset to coordinates
-            function offsetCoordinates(coords) {
-                if (typeof coords[0] === 'number') {
-                    return [coords[0] + offsetLng, coords[1] + offsetLat];
-                } else {
-                    return coords.map(offsetCoordinates);
-                }
-            }
-
-            districtCopy.features.forEach(feature => {
-                if (feature.geometry && feature.geometry.coordinates) {
-                    feature.geometry.coordinates = offsetCoordinates(feature.geometry.coordinates);
-                }
-            });
-
-            // Create the visual layer
-            const districtLayer = L.geoJSON(districtCopy, {
-                style: {
-                    color: '#007bff',
-                    weight: 3,
-                    opacity: 0.8,
-                    fillColor: '#007bff',
-                    fillOpacity: 0.3
-                },
-                onEachFeature: function(feature, layer) {
-                    const districtName = feature.properties.name || 'District 37';
-                    layer.bindPopup(`
-                        <div style="text-align: center;">
-                            <strong>${districtName}</strong><br>
-                            <small>Double-click to remove</small>
-                        </div>
-                    `);
-
-                    // Remove on double-click
-                    layer.on('dblclick', function() {
-                        removeDistrictLayer(districtLayer);
-                    });
-                }
-            }).addTo(austinMap);
-
-            // Track the layer
-            droppedLayers.push(districtLayer);
-            
-            // Update results text
-            const resultsElement = document.getElementById('results_austin');
-            if (resultsElement) {
-                resultsElement.textContent = `${droppedLayers.length} district shape(s) placed. Click "Check Results" to see how you did!`;
-                resultsElement.style.color = '#495057';
-            }
-
-            console.log('District layer added successfully');
-        }
-
-        function removeDistrictLayer(layer) {
-            console.log('Removing district layer');
-            austinMap.removeLayer(layer);
-            droppedLayers = droppedLayers.filter(l => l !== layer);
-            
-            // Update results text
-            const resultsElement = document.getElementById('results_austin');
-            if (resultsElement && droppedLayers.length === 0) {
-                resultsElement.textContent = 'Drag the district shape onto the map to get started!';
-                resultsElement.style.color = '#495057';
-            }
-        }
-
-        function setupButtonListeners() {
-            const checkButton = document.getElementById('checkAnswer_austin');
-            const clearButton = document.getElementById('clearMap_austin');
-
-            if (checkButton) {
-                checkButton.addEventListener('click', checkResults);
-            }
-
-            if (clearButton) {
-                clearButton.addEventListener('click', clearMap);
-            }
-        }
-
-        function checkResults() {
-            console.log('Checking results...');
-            const resultsElement = document.getElementById('results_austin');
-
-            if (!resultsElement) {
-                console.error('Results element not found');
-                return;
-            }
-
-            if (droppedLayers.length === 0) {
-                resultsElement.innerHTML = '❌ No district shapes placed. Try dragging the district image onto the map!';
-                resultsElement.style.color = '#dc3545';
-                return;
-            }
-
-            if (!targetDistrict) {
-                resultsElement.innerHTML = '❌ Target district data not available for comparison.';
-                resultsElement.style.color = '#dc3545';
-                return;
-            }
-
-            // Find closest placement
-            let bestMatch = null;
-            let minDistance = Infinity;
-
-            droppedLayers.forEach(layer => {
-                const droppedBounds = layer.getBounds();
-                const droppedCenter = droppedBounds.getCenter();
-                const targetCenter = targetDistrict.getBounds().getCenter();
-                const distance = droppedCenter.distanceTo(targetCenter);
-                
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    bestMatch = layer;
-                }
-            });
-
-            // Show correct answer briefly
-            targetDistrict.setStyle({
-                opacity: 0.8,
-                fillOpacity: 0.3
-            });
-
-            setTimeout(() => {
-                targetDistrict.setStyle({
-                    opacity: 0,
-                    fillOpacity: 0
-                });
-            }, 4000);
-
-            // Provide feedback
-            const distanceKm = minDistance / 1000;
-            
-            if (distanceKm < 2) {
-                resultsElement.innerHTML = `
-                    ✅ <strong>Excellent!</strong> Your district placement is very accurate!
-                    <br><small>Distance from correct center: ${Math.round(distanceKm * 100) / 100}km</small>
-                `;
-                resultsElement.style.color = '#28a745';
-                showNotification('🎉 Great job! Very close to the actual boundaries!');
-            } else if (distanceKm < 5) {
-                resultsElement.innerHTML = `
-                    ⚠️ <strong>Good effort!</strong> Your placement is close to the target area.
-                    <br><small>Distance from correct center: ${Math.round(distanceKm * 100) / 100}km</small>
-                `;
-                resultsElement.style.color = '#ffc107';
-            } else {
-                resultsElement.innerHTML = `
-                    ❌ <strong>Keep trying!</strong> Your district needs to be repositioned.
-                    <br><small>Distance from correct center: ${Math.round(distanceKm * 100) / 100}km</small>
-                    <br><small>The correct boundaries were shown in green.</small>
-                `;
-                resultsElement.style.color = '#dc3545';
-            }
-        }
-
-        function clearMap() {
-            console.log('Clearing map...');
-            
-            // Remove all dropped layers
-            droppedLayers.forEach(layer => {
-                austinMap.removeLayer(layer);
-            });
-            droppedLayers = [];
-
-            // Reset results
-            const resultsElement = document.getElementById('results_austin');
-            if (resultsElement) {
-                resultsElement.textContent = 'Drag the district shape onto the map to get started!';
-                resultsElement.style.color = '#495057';
-            }
-
-            showNotification('🔄 Map cleared! Try placing the district again.');
-        }
-
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = message;
-            notification.style.animation = 'slideIn 0.3s ease-out';
-            
-            document.body.appendChild(notification);
-
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease-in';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 300);
-            }, 3000);
-        }
-
-        function showError(message) {
-            const resultsElement = document.getElementById('results_austin');
-            if (resultsElement) {
-                resultsElement.innerHTML = `❌ ${message}`;
-                resultsElement.style.color = '#dc3545';
-            }
-        }
-
-        // Initialize when DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, initializing map...');
-            initAustinMap();
-        });
-
-        // Export functions for debugging
-        window.austinMapFunctions = {
-            initAustinMap,
-            clearMap,
-            checkResults,
-            loadDistrictData
-        };
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src = "dragMap.js"></script>
+    
 </body>
 </html>
